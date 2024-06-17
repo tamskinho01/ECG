@@ -49,8 +49,8 @@ model.summary()
 history = model.fit(yw_train, yt_train, epochs=100, validation_data=(yw_test, yt_test))
 
 # Evaluar el modelo
-loss = model.evaluate(yw_test, yt_test)
-print(f'Validation loss: {loss}')
+loss, mae, mse, r2 = model.evaluate(yw_test, yt_test)
+print(f'Validation loss: {loss}, MAE: {mae}, MSE: {mse}, R-squared: {r2}')
 
 # Hacer predicciones
 predicciones = model.predict(yw_test)
@@ -65,5 +65,18 @@ plt.xlabel('Índice de Tiempo')
 plt.ylabel('Valor')
 plt.savefig('predicciones.png')
 plt.show()
+
+
+# Graficar las predicciones y la pérdida vs entrenamiento
+plt.figure(figsize=(10,6))
+plt.plot(history.history['loss'], label='Training Loss')
+plt.plot(history.history['val_loss'], label='Validation Loss')
+plt.legend()
+plt.title('Loss vs Training Epoch')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.savefig('loss_plot.png')
+plt.show()
+
 
 
