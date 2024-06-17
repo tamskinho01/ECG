@@ -45,17 +45,14 @@ jobs:
           path: path/to/plots  # Ruta donde se generan los gráficos (por ejemplo, 'plots/' o 'images/')
 
       - name: Comment on pull request
-        uses: collaborative-software/cml-github-app@v1.2.0
-        with:
-          name: 'Model Training Results'
-          head_branch: ${{ github.head_ref }}
-          body: |
-            Model trained successfully!
-            Metrics:
-            - Validation loss: ${loss}
-            - MAE: ${mae}
-            - MSE: ${mse}
-            - R-squared: ${r2}
+        run: |
+          echo "Model trained successfully!"
+          echo "Metrics:"
+          echo "- Validation loss: $loss"
+          echo "- MAE: $mae"
+          echo "- MSE: $mse"
+          echo "- R-squared: $r2"
+          echo ""
+          echo "![Predicciones del modelo LSTM](path/to/plots/predicciones.png)"
+          echo "![Loss vs Training Epoch](path/to/plots/loss_plot.png)"
 
-            ![Predicciones del modelo LSTM](path/to/plots/predicciones.png)
-            ![Loss vs Training Epoch](path/to/plots/loss_plot.png)
