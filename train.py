@@ -8,7 +8,7 @@ import random as rd
 import matplotlib.pyplot as plt
 
 # Cargar los datos
-datos_combinadosAJAHUEL_H1 = pd.read_csv('data.csv')
+datos_combinadosAJAHUEL_H1 = pd.read_csv('data.csv') 
 y3 = datos_combinadosAJAHUEL_H1['X3'].values
 
 # Preparar los datos
