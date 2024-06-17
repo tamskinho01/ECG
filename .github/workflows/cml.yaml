@@ -1,10 +1,9 @@
-
 name: Train LSTM Model
 
 on:
   push:
     branches:
-      - main  # Define la rama en la que se debe activar el flujo
+      - main
 
 jobs:
   run:
@@ -13,14 +12,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.8'
+      - name: Install pip
+        run: |
+          python -m ensurepip --default-pip
+
+      - name: Upgrade pip
+        run: |
+          python -m pip install --upgrade pip
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Train LSTM Model
@@ -36,5 +37,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: predictions
-          path: plot.png  # Ruta donde se encuentra el archivo de predicciones generado
+          path: plot.png
 
