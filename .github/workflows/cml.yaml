@@ -1,6 +1,10 @@
+
 name: Train LSTM Model
 
-on: [push]
+on:
+  push:
+    branches:
+      - main  # Define la rama en la que se debe activar el flujo
 
 jobs:
   run:
@@ -19,14 +23,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Train model
+      - name: Train LSTM Model
         run: |
           python train.py
 
-      - name: Upload Results
+      - name: Generate Predictions Plot
+        run: |
+          # Run the script to generate predictions and save plot.png
+          python generate_predictions.py
+
+      - name: Upload Predictions Plot
         uses: actions/upload-artifact@v2
         with:
-          name: predicciones
-          path: predicciones.png
-
+          name: predictions
+          path: plot.png  # Ruta donde se encuentra el archivo de predicciones generado
 
