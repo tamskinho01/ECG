@@ -66,17 +66,6 @@ plt.ylabel('Valor')
 plt.savefig('predicciones.png')
 plt.show()
 
-# Graficar las predicciones y la pérdida vs entrenamiento
-plt.figure(figsize=(10,6))
-plt.plot(history.history['loss'], label='Training Loss')
-plt.plot(history.history['val_loss'], label='Validation Loss')
-plt.legend()
-plt.title('Loss vs Training Epoch')
-plt.xlabel('Epoch')
-plt.ylabel('Loss')
-plt.savefig('loss_plot.png')
-plt.show()
-
 
 
 
