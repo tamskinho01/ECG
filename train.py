@@ -65,7 +65,3 @@ plt.xlabel('Índice de Tiempo')
 plt.ylabel('Valor')
 plt.savefig('predicciones.png')
 plt.show()
-
-
-
-
