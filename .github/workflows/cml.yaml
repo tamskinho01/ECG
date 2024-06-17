@@ -27,4 +27,3 @@ jobs:
         with:
           name: predicciones
           path: predicciones.png
-
