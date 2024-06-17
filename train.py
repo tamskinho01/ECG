@@ -6,9 +6,10 @@ from tensorflow.keras.models import Sequential
 from sklearn.model_selection import train_test_split
 import random as rd
 import matplotlib.pyplot as plt
+import json
 
 # Cargar los datos
-datos_combinadosAJAHUEL_H1 = pd.read_csv('data.csv') 
+datos_combinadosAJAHUEL_H1 = pd.read_csv('data.csv')
 y3 = datos_combinadosAJAHUEL_H1['X3'].values
 
 # Preparar los datos
@@ -46,11 +47,16 @@ model.compile(optimizer='adam', loss='mse')
 model.summary()
 
 # Entrenar el modelo
-history = model.fit(yw_train, yt_train, epochs=10, validation_data=(yw_test, yt_test))
+history = model.fit(yw_train, yt_train, epochs=100, validation_data=(yw_test, yt_test))
 
 # Evaluar el modelo
 loss = model.evaluate(yw_test, yt_test)
 print(f'Validation loss: {loss}')
+
+# Guardar las métricas en un archivo JSON
+metrics = {'loss': loss}
+with open('metrics.json', 'w') as f:
+    json.dump(metrics, f)
 
 # Hacer predicciones
 predicciones = model.predict(yw_test)
@@ -65,3 +71,4 @@ plt.xlabel('Índice de Tiempo')
 plt.ylabel('Valor')
 plt.savefig('predicciones.png')
 plt.show()
+
