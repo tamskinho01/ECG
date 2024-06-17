@@ -4,3 +4,4 @@ tensorflow
 scikit-learn
 matplotlib
 cml
+cloud-ml-common==0.2.2
