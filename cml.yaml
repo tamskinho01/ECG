@@ -6,10 +6,11 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Asegurarse de usar la última versión compatible con Node.js 20
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v4  # Asegurarse de usar la última versión compatible con Node.js 20
         with:
           python-version: '3.8'
 
@@ -17,13 +18,25 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install cml
 
       - name: Train model
         run: |
           python train.py
 
-      - name: Upload Results
-        uses: actions/upload-artifact@v2
+      - name: Upload Predictions
+        uses: actions/upload-artifact@v3  # Asegurarse de usar la última versión compatible con Node.js 20
         with:
           name: predicciones
           path: predicciones.png
+
+      - name: Report Metrics and Predictions
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "## Metrics and Predictions" > report.md
+          echo "\n### Loss" >> report.md
+          python -c "import json; metrics = json.load(open('metrics.json')); print(metrics['loss'], file=open('report.md', 'a'))"
+          echo "\n### Predictions" >> report.md
+          cml-publish predicciones.png --md >> report.md
+          cml-send-comment report.md
