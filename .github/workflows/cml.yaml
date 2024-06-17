@@ -6,10 +6,11 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4  # Actualizado a Node.js 20
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v4  # Actualizado a Node.js 20
         with:
           python-version: '3.8'
 
@@ -24,7 +25,7 @@ jobs:
           python train.py
 
       - name: Upload Predictions
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3  # Actualizado a la última versión
         with:
           name: predicciones
           path: predicciones.png
@@ -39,3 +40,4 @@ jobs:
           echo "\n### Predictions" >> report.md
           cml-publish predicciones.png --md >> report.md
           cml-send-comment report.md
+
