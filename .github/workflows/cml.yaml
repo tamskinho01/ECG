@@ -29,14 +29,9 @@ jobs:
         run: |
           python train.py
 
-      - name: Generate Predictions Plot
-        run: |
-          # Run the script to generate predictions and save plot.png
-          python generate_predictions.py
-
       - name: Upload Predictions Plot
         uses: actions/upload-artifact@v2
         with:
-          name: predictions
-          path: plot.png
+          name: predicciones
+          path: predicciones.png
 
