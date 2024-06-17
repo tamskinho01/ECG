@@ -5,8 +5,6 @@ from tensorflow.keras.layers import LSTM, Input, Dense
 from tensorflow.keras.models import Sequential
 from sklearn.model_selection import train_test_split
 import random as rd
-import matplotlib.pyplot as plt
-import json
 
 # Cargar los datos
 datos_combinadosAJAHUEL_H1 = pd.read_csv('data.csv')
@@ -39,6 +37,8 @@ yw_test = yw_test.reshape((yw_test.shape[0], 3, 1))
 model = Sequential()
 model.add(Input(name="serie", shape=(3, 1)))
 model.add(LSTM(350, activation='relu'))
+# model.add(LSTM(250, activation='relu'))
+# model.add(LSTM(150, activation='relu'))
 model.add(Dense(1, activation='linear'))
 
 model.compile(optimizer='adam', loss='mse')
@@ -53,15 +53,17 @@ history = model.fit(yw_train, yt_train, epochs=100, validation_data=(yw_test, yt
 loss = model.evaluate(yw_test, yt_test)
 print(f'Validation loss: {loss}')
 
-# Guardar las métricas en un archivo JSON
+# Hacer predicciones
+predicciones = model.predict(yw_test)
+
+# Guardar las métricas
 metrics = {'loss': loss}
 with open('metrics.json', 'w') as f:
     json.dump(metrics, f)
 
-# Hacer predicciones
-predicciones = model.predict(yw_test)
-
 # Graficar las predicciones
+import matplotlib.pyplot as plt
+
 plt.figure(figsize=(10,6))
 plt.plot(range(len(yt_test)), yt_test, label='Valores Reales')
 plt.plot(range(len(predicciones)), predicciones, color='red', label='Predicciones')
@@ -71,3 +73,4 @@ plt.xlabel('Índice de Tiempo')
 plt.ylabel('Valor')
 plt.savefig('predicciones.png')
 plt.show()
+
