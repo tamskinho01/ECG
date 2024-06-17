@@ -1,15 +1,25 @@
-name: Train LSTM Model
+name: Train and Evaluate LSTM Model
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  run:
+  train_and_evaluate:
     runs-on: ubuntu-latest
+    container:
+      image: tensorflow/tensorflow:latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: '3.8'
 
@@ -18,13 +28,34 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Train model
+      - name: Train LSTM model
         run: |
-          python train.py
+          python train.py  # Este es el script que contiene el código para entrenar el modelo LSTM
 
-      - name: Upload Predictions
+      - name: Evaluate model and generate plots
+        run: |
+          python evaluate_model.py  # Este es el script que contiene el código para evaluar el modelo y generar gráficos
+          cp predicciones.png path/to/plots/predicciones.png
+          cp loss_plot.png path/to/plots/loss_plot.png
+
+      - name: Upload plots
         uses: actions/upload-artifact@v2
         with:
-          name: predicciones
-          path: predicciones.png
+          name: model-plots
+          path: path/to/plots  # Ruta donde se generan los gráficos (por ejemplo, 'plots/' o 'images/')
 
+      - name: Comment on pull request
+        uses: collaborative-software/cml-github-app@v1.2.0
+        with:
+          name: 'Model Training Results'
+          head_branch: ${{ github.head_ref }}
+          body: |
+            Model trained successfully!
+            Metrics:
+            - Validation loss: ${loss}
+            - MAE: ${mae}
+            - MSE: ${mse}
+            - R-squared: ${r2}
+
+            ![Predicciones del modelo LSTM](path/to/plots/predicciones.png)
+            ![Loss vs Training Epoch](path/to/plots/loss_plot.png)
