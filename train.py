@@ -4,6 +4,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import LSTM, Input, Dense
 from tensorflow.keras.models import Sequential
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 import random as rd
 import matplotlib.pyplot as plt
 
@@ -52,13 +53,20 @@ history = model.fit(yw_train, yt_train, epochs=30, validation_data=(yw_test, yt_
 loss = model.evaluate(yw_test, yt_test)
 print(f'Validation loss: {loss}')
 
-# Hacer predicciones
-predicciones = model.predict(yw_test)
+# Calcular métricas adicionales
+predictions = model.predict(yw_test)
+r2 = r2_score(yt_test, predictions)
+mae = mean_absolute_error(yt_test, predictions)
+mse = mean_squared_error(yt_test, predictions)
+
+print(f'R²: {r2}')
+print(f'MAE: {mae}')
+print(f'MSE: {mse}')
 
 # Graficar las predicciones
-plt.figure(figsize=(10,6))
+plt.figure(figsize=(10, 6))
 plt.plot(range(len(yt_test)), yt_test, label='Valores Reales')
-plt.plot(range(len(predicciones)), predicciones, color='red', label='Predicciones')
+plt.plot(range(len(predictions)), predictions, color='red', label='Predicciones')
 plt.legend()
 plt.title('Predicciones del modelo LSTM')
 plt.xlabel('Índice de Tiempo')
