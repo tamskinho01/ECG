@@ -27,3 +27,6 @@ jobs:
         with:
           name: predicciones
           path: predicciones.png
+      - name: Finish
+        run: echo "Training script completed successfully."
+
