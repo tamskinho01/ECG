@@ -7,15 +7,19 @@ on:
 
 jobs:
   run:
-    runs-on: ubuntu-latest
-    container:
-      image: ubuntu:20.04
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install Python
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip
+
       - name: Install pip
         run: |
-          apt-get update && apt-get install -y python3-pip
+          curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+          python3 get-pip.py
 
       - name: Upgrade pip
         run: |
@@ -23,12 +27,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
-          pip install matplotlib
+          python3 -m pip install -r requirements.txt
+          python3 -m pip install matplotlib
 
       - name: Train LSTM Model
         run: |
-          python train.py
+          python3 train.py
 
       - name: Upload Predictions Plot
         uses: actions/upload-artifact@v2
