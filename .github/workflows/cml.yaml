@@ -9,16 +9,19 @@ jobs:
   run:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Install Homebrew
+      - name: Install Homebrew and Python
         run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          # Instala Homebrew si no está instalado
+          if ! command -v brew &> /dev/null; then
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          fi
+          # Agrega Homebrew al PATH
           echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
           eval "$(/opt/homebrew/bin/brew shellenv)"
-
-      - name: Install Python
-        run: |
+          # Instala Python usando Homebrew
           brew install python
 
       - name: Install pip
@@ -44,3 +47,4 @@ jobs:
         with:
           name: predicciones
           path: predicciones.png
+
