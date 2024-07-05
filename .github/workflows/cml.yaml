@@ -12,29 +12,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Homebrew and Python
-        run: |
-          # Instala Homebrew si no está instalado
-          if ! command -v brew &> /dev/null; then
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          fi
-          # Agrega Homebrew al PATH
-          echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-          eval "$(/opt/homebrew/bin/brew shellenv)"
-          # Instala Python usando Homebrew
-          brew install python
-
-      - name: Install pip
-        run: |
-          curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-          python3 get-pip.py
-
-      - name: Upgrade pip
+      - name: Install Python and dependencies
         run: |
           python3 -m pip install --upgrade pip
-
-      - name: Install dependencies
-        run: |
           python3 -m pip install -r requirements.txt
           python3 -m pip install matplotlib
 
