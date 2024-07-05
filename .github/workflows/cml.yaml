@@ -6,23 +6,32 @@ on:
       - main
 
 jobs:
-  run:
+  train:
     runs-on: self-hosted
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Install Python and dependencies
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # Reemplaza con la versión de Python que estés utilizando
+
+      - name: Install dependencies
         run: |
-          python3 -m pip install -r requirements.txt
-          python3 -m pip install matplotlib
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
 
       - name: Train LSTM Model
         run: |
-          python3 train.py
+          python train.py
 
       - name: Upload Predictions Plot
         uses: actions/upload-artifact@v2
         with:
-          name: predicciones
+          name: predictions
           path: predicciones.png
+
+      - name: Finalize
+        run: |
+          echo "Training completed successfully."
