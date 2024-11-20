@@ -29,7 +29,7 @@ seed = 1212200812
 rd.seed(seed)
 np.random.seed(seed)
 tf.random.set_seed(seed)
-yw_train, yw_test, yt_train, yt_test = train_test_split(yw, yt, test_size=0.2, random_state=seed)
+yw_train, yw_test, yt_train, yt_test = train_test_split(yw, yt, test_size=0.3, random_state=seed)
 
 # Reestructurar los datos para que sean compatibles con el modelo LSTM
 yw_train = yw_train.reshape((yw_train.shape[0], 3, 1))
