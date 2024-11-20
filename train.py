@@ -25,7 +25,7 @@ yw = np.array(yw)
 yt = np.array(yt)
 
 # Dividir en conjunto de entrenamiento y prueba
-seed = 1212200812
+seed = 12122008
 rd.seed(seed)
 np.random.seed(seed)
 tf.random.set_seed(seed)
