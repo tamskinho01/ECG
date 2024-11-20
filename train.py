@@ -38,7 +38,7 @@ yw_test = yw_test.reshape((yw_test.shape[0], 3, 1))
 # Definir y compilar el modelo LSTM
 model = Sequential()
 model.add(Input(name="serie", shape=(3, 1)))
-model.add(LSTM(350, activation='relu'))
+model.add(LSTM(250, activation='relu'))
 model.add(Dense(1, activation='linear'))
 
 model.compile(optimizer='adam', loss='mse')
